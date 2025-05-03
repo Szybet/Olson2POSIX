@@ -36,7 +36,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -45,22 +45,34 @@
 #include <WiFi.h>
 #include <time.h>
 
-class Olson2POSIX{
-    public:
-        String getPOSIX(String inOlson);
-        bool setCurrentTimeZone();
-        bool setOlsonTimeZone(String inOlson);
-        String getCurrentPOSIX();
-        String getCurrentOlson();
-        bool setCurrentPOSIX(String NewPOSIX);
-        bool beginOlsonFromWeb(WiFiClient &client);
-        void endOlsonFromWeb();
-        bool gotOlsonFromWeb();
-        int getOlsonWebError();
-        void init();
-        const String TZMISSING = "--MISSING--";
-    private:
-        void setTZInternal();
-        static void OlsonGet(void * parameter);
+class Olson2POSIX
+{
+public:
+    String getPOSIX(String inOlson);
+    bool setCurrentTimeZone();
+    bool setOlsonTimeZone(String inOlson);
+    String getCurrentPOSIX();
+    String getCurrentOlson();
+    bool setCurrentPOSIX(String NewPOSIX);
+    bool beginOlsonFromWeb(WiFiClient *client);
+    void endOlsonFromWeb();
+    bool gotOlsonFromWeb();
+    int getOlsonWebError();
+    void init();
+    const String TZMISSING = "--MISSING--";
+    void OlsonGet();
+
+private:
+    void setTZInternal();
+    char POSIX[64];
+    String OlsonFromWeb;
+    bool Inited;
+    TaskHandle_t OlsHandle = NULL;
+    BaseType_t OlsRet;
+    bool ODone;
+    bool Obegan;
+    volatile int WebError;
+    WiFiClient *oWiFiC;
+    HTTPClient oHTTP; // Tz
 };
 #endif
