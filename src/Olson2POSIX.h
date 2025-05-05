@@ -54,7 +54,7 @@ public:
     String getCurrentPOSIX();
     String getCurrentOlson();
     bool setCurrentPOSIX(String NewPOSIX);
-    bool beginOlsonFromWeb(WiFiClient *client);
+    bool beginOlsonFromWeb();
     void endOlsonFromWeb();
     bool gotOlsonFromWeb();
     int getOlsonWebError();
@@ -72,7 +72,7 @@ private:
     bool ODone;
     bool Obegan;
     volatile int WebError;
-    WiFiClient *oWiFiC;
+    WiFiClient oWiFiC;
     HTTPClient oHTTP; // Tz
 };
 #endif

@@ -152,9 +152,8 @@ static void OlsonGetWrapper(void *parameter) {
 
 
 // Asks for the response, not currently Async...
-bool Olson2POSIX::beginOlsonFromWeb(WiFiClient *client)
+bool Olson2POSIX::beginOlsonFromWeb()
 {
-    oWiFiC = client;
     if (!Inited)
         init();
     if (WiFi.status() != WL_CONNECTED)
@@ -197,7 +196,7 @@ void Olson2POSIX::OlsonGet()
     int cnt = 0;
     size_t size = 0;
     uint8_t buff[128] = {0};
-    WiFiClient *netstream;
+    NetworkClient *netstream;
     String stmp, payload;
     bool Good = (WiFi.status() == WL_CONNECTED);
     JsonDocument root;
@@ -213,7 +212,7 @@ void Olson2POSIX::OlsonGet()
                 Sent = true;
                 oHTTP.setConnectTimeout(3000);
                 Stay = millis() + 3500;
-                Good = oHTTP.begin(*oWiFiC, TZURL);
+                Good = oHTTP.begin(oWiFiC, TZURL);
             } // Call it and leave.
             else
                 itmp = oHTTP.GET();
