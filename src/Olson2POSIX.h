@@ -45,6 +45,8 @@
 #include <WiFi.h>
 #include <time.h>
 
+extern const String sOLSON;
+
 class Olson2POSIX
 {
 public:
